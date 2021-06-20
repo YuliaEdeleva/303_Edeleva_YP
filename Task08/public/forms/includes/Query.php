@@ -4,15 +4,15 @@ function list_of_services_for_employee( $pdo, $id_list, $order_query=NULL){
 
     $list_of_all_services_query = "
         SELECT 
-            m.id AS 'Номер мастера', 
-            m.last_name || ' ' || m.name || ' ' || m.patronymic AS 'ФИО',
-            w.date AS 'Дата работы',
-            s.service_name AS 'Услуга',
+            e.id AS 'Номер мастера', 
+            e.last_name || ' ' || e.name || ' ' || e.second_name AS 'ФИО',
+            w.work_date AS 'Дата работы',
+            s.name AS 'Услуга',
             s.price AS 'Стоимость'
-        FROM work_info AS w
-        INNER JOIN master AS m ON w.id_master = m.id
+        FROM work_track AS w
+        INNER JOIN employee AS e ON w.id_employee = e.id
         INNER JOIN service AS s ON w.id_service = s.id
-        WHERE m.id IN (".$id_list.")
+        WHERE e.id IN (".$id_list.")
     ";
 
     $statement = $pdo->query( $list_of_all_services_query.$order_query );
